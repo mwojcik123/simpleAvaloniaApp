@@ -9,11 +9,12 @@ namespace ToDoList.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         private ViewModelBase _contentViewModel;
+        private readonly ToDoListService _service; // dodano pole serwisu
 
         public MainWindowViewModel()
         {
-            var service = new ToDoListService();
-            ToDoList = new ToDoListViewModel(service.GetItems());
+            _service = new ToDoListService();
+            ToDoList = new ToDoListViewModel(_service.GetItems());
             _contentViewModel = ToDoList;
         }
 
@@ -37,6 +38,7 @@ namespace ToDoList.ViewModels
                 {
                     if (newItem != null)
                     {
+                        _service.AddItem(newItem); // zapisanie nowego elementu
                         ToDoList.ListItems.Add(newItem);
                     }
                     ContentViewModel = ToDoList;
